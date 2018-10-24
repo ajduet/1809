@@ -14,5 +14,19 @@ pipeline {
         }
       }
     }
+    stage('Artifact Build') {
+        steps {
+            script {
+                try {
+                    sh 'echo run mvn package -DskipTests'
+                    sh 'mvn package -DskipTests'
+
+                } catch (Exception e) {
+                    currentBuild.result = 'FAILURE'
+                    throw e
+                }
+            }
+        }
+    }
   }
 }
